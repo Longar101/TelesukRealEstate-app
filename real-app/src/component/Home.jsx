@@ -43,7 +43,7 @@ function Home() {
 
   return (
     <>
-   <section className=' w-full h-[130vh]  flex flex-col md:flex-row bg-center bg-[url(/src/photo/bgimage.png)] bg-cover mt-2 rounded m-2 ' >
+   <section className=' w-full h-[130vh]  flex flex-col md:flex-row bg-center bg-[url(/src/photo/bgimage.png)] bg-cover mt-2 rounded m-2 relative' >
      <div className=' md:w-[40%] md:h-fit w-full h-full flex flex-col mt-3 ml-1  rounded'>
         <div className='bg-blue-500 p-2 flex justify-center item-center rounded'>
             <h1 className='uppercase bold text-black bg-white p-2 rounded text-6xl'> Find your Dream Home with Us</h1>
