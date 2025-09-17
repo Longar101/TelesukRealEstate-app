@@ -14,13 +14,13 @@ import bcrypt from "bcryptjs";
     
       try      {
            await newUser.save(); // we user asynchronious js to save our userModel data in our database by using .save()
-            res.status(201).json({message:"user created successfully"});
+            res.status(201).send({message:"user created successfully"});
     
         
                } 
       catch (error) {
         console.log(error);
-        res.status(501).json({message:"there is an error creating the user"})
+        res.status(501).send({message:"there is an error creating the user"})
        // res.status(501).json(error.message)
         
         
