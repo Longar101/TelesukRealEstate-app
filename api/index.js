@@ -47,6 +47,19 @@ app.use(express.json())
 app.use("/api/user",userRouter);
 app.use("/api/auth",authRouter);
 
+//create middleware to handle errors
+app.use((error,req,res,next)=>{
+   //create a status code from 
+   const statuscode = error.statuscode || 500; //here we want to get statucode from the error of just use internal status code
+   const message = error.message || "internal server error !";
+   return res.status(statuscode).json({
+      success:false,
+        statuscode,
+         message,
+  
+   }); // used return keyword to give response of the error remember to used next
+});
+
 
 
 
