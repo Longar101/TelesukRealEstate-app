@@ -8,10 +8,11 @@ import jwt from "jsonwebtoken";
 import userRouter from"./Routes/user.Route.js"
 import authRouter from "./Routes/auth.route.js";
 
-dotenv.config({ quiet: true });
 
+dotenv.config({ quiet: true });
+"mongodb://localhost:27017/database"
 //used promise asyncy await
-//"mongodb://localhost:27017/database"
+"mongodb://localhost:27017/database"
 async function Database() {
    try {
            
@@ -46,6 +47,8 @@ app.use(express.json())
 // user the router
 app.use("/api/user",userRouter);
 app.use("/api/auth",authRouter);
+
+
 
 //create middleware to handle errors
 app.use((error,req,res,next)=>{

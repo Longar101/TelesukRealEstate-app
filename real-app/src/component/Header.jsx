@@ -72,7 +72,7 @@ export default function Header() {
      
      {
      id:3,
-     links: <Link to="/singup">signup </Link>
+     links: <Link to="/signup">signup </Link>
         
                     },
                     {

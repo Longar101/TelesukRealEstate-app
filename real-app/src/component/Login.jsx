@@ -1,40 +1,79 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Make sure react-router-dom is installed
-
+import React, { useState } from 'react'; 
+import { Link,useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
 
-  const [errors, setErrors] = useState({});
+// const[error,setError] = useState(null);
+//const[loading,setLoading] = useState(false);
+const {loading, error} = useSelector((state) => state.user);// to access our user state in the component use useSelector((state)=>state.user)
+const navigate = useNavigate()
+ const dispatch = useDispatch();
 
-  const validate = () => {
-    const newErrors = {};
-
-    if (!formData.email.includes('@')) {
-      newErrors.email = 'Invalid email address';
-    }
-
-    if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log('Form submitted:', formData);
-      // Add backend logic here
-    }
-  };
+  const handleSubmit = async(e)=>{
+     e.preventDefault()
+     
+     //send form data to database using our url
+   //at the begining of our request setloading to true
+
+     try {
+        dispatch(signInStart());  
+       //setLoading(true);
+       const res = await fetch("/api/auth/signin",
+      {
+       method:"POST",
+       headers:{
+          "Content-Type":"application/json"
+       },
+       body: JSON.stringify(formData),
+
+        }
+      );
+
+     const data = await res.json();
+     console.log(data);
+     
+     //end of req we wanna checked wheather the data has error
+     if ( data.success ===false) {
+       dispatch(signInFailure(data.message));
+      //here we are checking our data from backend index.js middleware
+     // istead of this we 
+    
+   
+      
+       return; 
+     }
+  
+    dispatch(signInSuccess(data)); // everything is fine we get user data from backend
+
+     //setLoading(false)
+      // setError(null)
+       navigate("/")
+  
+      
+     
+      
+     } catch (error) {
+     dispatch(signInFailure(error.message));
+       // setLoading(false);
+       // setError(error.message);
+     }
+
+
+  }
+
+
+
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -51,9 +90,9 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
-              placeholder="you@example.com"
+              placeholder="Enter your email@gmail.com"
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+          
           </div>
 
           {/* Password */}
@@ -67,18 +106,25 @@ const Login = () => {
               className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
               placeholder="••••••••"
             />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+          
           </div>
 
           <button
+          disabled ={loading}
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
           >
-            Sign In
+            {loading ? "loading ...":"signin"} 
           </button>
         </form>
 
-        <div className="mt-6 text-center text-gray-500">or sign in with</div>
+        <div className='flex-gap-2 mt-5'>
+                  <p>Dont have an account ?</p>
+                  <Link to={'/login'}>
+                  <span className='text-blue-600 mt-3'> signIn</span>
+                  </Link>
+               </div>
+            <p className='text-red-500 mt-3'>{error}</p>
 
         <div className="mt-4 flex flex-col space-y-3">
           <button className="flex items-center justify-center bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition">
@@ -101,8 +147,8 @@ const Login = () => {
         {/* Footer */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
-            <Link to="/signup" className="text-blue-600 hover:underline font-medium">
+            Don't have an account?
+            <Link to={"/signup"} className="text-blue-600 hover:underline font-medium">
               Sign Up
             </Link>
           </p>

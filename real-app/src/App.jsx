@@ -1,31 +1,23 @@
-import { useState } from 'react'
-import{BrowserRouter,Routes,Route} from "react-router-dom"
-import './App.css'
-import Header from './component/Header'
-import Home from './component/Home'
-import About from './component/About'
-import Contact from './component/Contact'
-import Agents from './component/Agent'
-import Property from './component/Property'
-import SignUp from './component/SignUp'
-import Login from './component/Login'
-import Services from './component/Services'
-import PartnerWithTelesuk from './component/PartnerWithTelesuk'
-import Testimonies from './component/Testimonies'
-import Location from "./component/Location"
-import Advert from './component/Advert'
-import Apartment from './pages/Apartment'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+//import { Provider } from 'react-redux';
+//import {store }from './redux/store';
 
-//
+import Header from './component/Header';
+import Home from './component/Home';
+import About from './component/About';
+import Contact from './component/Contact';
+import Agents from './component/Agent';
+import Property from './component/Property';
+import SignUp from './component/SignUp';
+import Login from './component/Login';
+import Services from './component/Services';
+import PartnerWithTelesuk from './component/PartnerWithTelesuk';
+import Testimonies from './component/Testimonies';
+import Location from './component/Location';
+import Advert from './component/Advert';
+import Apartment from './pages/Apartment';
 
-
-
-
-
-
-function App() {
-
-
+ function App() {
   return (
     <>
   <BrowserRouter>
@@ -59,4 +51,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
